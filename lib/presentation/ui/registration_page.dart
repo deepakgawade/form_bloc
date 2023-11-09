@@ -108,12 +108,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     bloc: imageFileBloc,
                     buildWhen: (previous, current) => previous != current,
                     builder: (context, state) {
-                      return image == null
+                      return state == null
                           ? const CircleAvatar(
                               minRadius: 50,
                               child: Icon(Icons.person),
                             )
-                          : CircleAvatar(child: Image.file(image!));
+                          : CircleAvatar(child: Image.file(state));
                     },
                     listener: (BuildContext context, File? state) {},
                   ),
