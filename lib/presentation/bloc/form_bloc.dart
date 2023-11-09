@@ -11,10 +11,8 @@ import 'package:assignment/domain/entities/university.dart';
 import 'package:assignment/domain/entities/year_of_experience.dart';
 import 'package:assignment/domain/entities/zipcode.dart';
 import 'package:bloc/bloc.dart';
-import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../data/failure.dart';
 
 part 'form_event.dart';
 part 'form_state.dart';

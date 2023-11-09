@@ -117,7 +117,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     },
                     listener: (BuildContext context, File? state) {},
                   ),
-                  //const  ImageViewer(),
                   Positioned(
                       right: 140,
                       bottom: 20,
@@ -136,12 +135,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceAround,
                                         children: [
-                                          IconButton(
-                                              onPressed: () async {
-                                                final file = await pickImageC();
-                                                imageFileBloc.addFile(file);
-                                              },
-                                              icon: const Icon(Icons.camera)),
+                                          Column(
+                                            children: [
+                                              IconButton(
+                                                  onPressed: () async {
+                                                    final file = await pickImageC();
+                                                    imageFileBloc.addFile(file);
+                                                  },
+                                                  icon: const Icon(Icons.camera)),
+                                            ],
+                                          ),
                                           IconButton(
                                               onPressed: () async {
                                                 final file = await pickImage();
@@ -156,9 +159,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 },
                               );
 
-                              // final file  = await pickImage();
-
-                              // imageFileBloc.addFile(file);
                             },
                             icon: const Icon(
                               Icons.edit,
@@ -197,7 +197,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       children: [
                          Text("Gender",style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500),),
                         SizedBox(
-                          //width: 350, //height: 400,
                           child: Row(
                             children: <Widget>[
                               Expanded(
@@ -294,230 +293,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
     );
   }
 }
-
-// class ImageViewer extends StatefulWidget {
-//   const ImageViewer({
-//     super.key,
-//   });
-
-//   @override
-//   State<ImageViewer> createState() => _ImageViewerState();
-// }
-
-// class _ImageViewerState extends State<ImageViewer> {
-
-//     final ImagePicker _picker = ImagePicker();
-//  List<XFile>? _mediaFileList;
-//    dynamic _pickImageError;
-//   String? _retrieveDataError;
-
-
-//   void _setImageFileListFromFile(XFile? value) {
-//     _mediaFileList = value == null ? null : <XFile>[value];
-//   }
-
-//   Future<void> _onImageButtonPressed(
-//     ImageSource source, {
-//     required BuildContext context,
-//     bool isMultiImage = false,
-//     bool isMedia = false,
-//   }) async {
- 
-//     if (context.mounted) {
-//    if (isMedia) {
-//         await _displayPickImageDialog(context,
-//             (double? maxWidth, double? maxHeight, int? quality) async {
-//           try {
-//             final List<XFile> pickedFileList = <XFile>[];
-//             final XFile? media = await _picker.pickMedia(
-//               maxWidth: maxWidth,
-//               maxHeight: maxHeight,
-//               imageQuality: quality,
-//             );
-//             if (media != null) {
-//               pickedFileList.add(media);
-//               setState(() {
-//                 _mediaFileList = pickedFileList;
-//               });
-//             }
-//           } catch (e) {
-//             setState(() {
-//               _pickImageError = e;
-//             });
-//           }
-//         });
-//       } else {
-//         await _displayPickImageDialog(context,
-//             (double? maxWidth, double? maxHeight, int? quality) async {
-//           try {
-//             final XFile? pickedFile = await _picker.pickImage(
-//               source: source,
-//               maxWidth: maxWidth,
-//               maxHeight: maxHeight,
-//               imageQuality: quality,
-//             );
-//             setState(() {
-//               _setImageFileListFromFile(pickedFile);
-//             });
-//           } catch (e) {
-//             setState(() {
-//               _pickImageError = e;
-//             });
-//           }
-//         });
-//       }
-//     }
-//   }
-//   Future<void> retrieveLostData() async {
-//     final LostDataResponse response = await _picker.retrieveLostData();
-//     if (response.isEmpty) {
-//       return;
-//     }
-//     if (response.file != null) {
-     
-       
-//         setState(() {
-//           if (response.files == null) {
-//             _setImageFileListFromFile(response.file);
-//           } else {
-//             _mediaFileList = response.files;
-//           }
-//         });
-      
-//     } else {
-//       _retrieveDataError = response.exception!.code;
-//     }
-//   }
-
-//     Future<void> _displayPickImageDialog(
-//       BuildContext context, OnPickImageCallback onPick) async {
-//     return showDialog(
-//         context: context,
-//         builder: (BuildContext context) {
-//           return AlertDialog(
-//             title: const Text('Add optional parameters'),
-//             content: Column(
-//               mainAxisSize: MainAxisSize.min,
-//               children: <Widget>[
-              
-//               ],
-//             ),
-//             actions: <Widget>[
-//               TextButton(
-//                 child: const Text('CANCEL'),
-//                 onPressed: () {
-//                   Navigator.of(context).pop();
-//                 },
-//               ),
-//               TextButton(
-//                   child: const Text('PICK'),
-//                   onPressed: () {
-//                     // final double? width = maxWidthController.text.isNotEmpty
-//                     //     ? double.parse(maxWidthController.text)
-//                     //     : null;
-//                     // final double? height = maxHeightController.text.isNotEmpty
-//                     //     ? double.parse(maxHeightController.text)
-//                     //     : null;
-//                     // final int? quality = qualityController.text.isNotEmpty
-//                     //     ? int.parse(qualityController.text)
-//                     //     : null;
-//                     onPick(50, 50, 1);
-//                     Navigator.of(context).pop();
-//                   }),
-//             ],
-//           );
-//         });
-//   }
-  
-//  Text? _getRetrieveErrorWidget() {
-//     if (_retrieveDataError != null) {
-//       final Text result = Text(_retrieveDataError!);
-//       _retrieveDataError = null;
-//       return result;
-//     }
-//     return null;
-//   }
-//  Widget _previewImages() {
-//     final Text? retrieveError = _getRetrieveErrorWidget();
-//     if (retrieveError != null) {
-//       return retrieveError;
-//     }
-//     if (_mediaFileList != null) {
-//       return Semantics(
-//         label: 'image_picker_example_picked_images',
-//         child: ListView.builder(
-//           key: UniqueKey(),
-//           itemBuilder: (BuildContext context, int index) {
-
-          
-//             return Semantics(
-//               label: 'image_picker_example_picked_image',
-//               child: Image.file(
-//                           File(_mediaFileList![index].path),
-//                           errorBuilder: (BuildContext context, Object error,
-//                               StackTrace? stackTrace) {
-//                             return const Center(
-//                                 child:
-//                                     Text('This image type is not supported'));
-//                           },
-//                         )
-//             );
-//           },
-//           itemCount: _mediaFileList!.length,
-//         ),
-//       );
-//     } else if (_pickImageError != null) {
-//       return Text(
-//         'Pick image error: $_pickImageError',
-//         textAlign: TextAlign.center,
-//       );
-//     } else {
-//                              return CircleAvatar(child: IconButton(onPressed: (){_onImageButtonPressed(ImageSource.gallery, context: context);},iconSize: 50, icon: Icon(Icons.person),),minRadius: 50,);
-// ;
-//     }
-//   }
-//  Widget _handlePreview() {
-    
-//       return _previewImages();
-    
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//    return  Center(
-//         child: !kIsWeb && defaultTargetPlatform == TargetPlatform.android
-//             ? FutureBuilder<void>(
-//                 future: retrieveLostData(),
-//                 builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-//                   switch (snapshot.connectionState) {
-//                     case ConnectionState.none:
-//                     case ConnectionState.waiting:
-//                       return                           CircleAvatar(child: IconButton(onPressed: (){_onImageButtonPressed(ImageSource.gallery, context: context);}, icon: Icon(Icons.person)),);
-// ;
-//                     case ConnectionState.done:
-//                       return _handlePreview();
-//                     case ConnectionState.active:
-//                       if (snapshot.hasError) {
-//                         return Text(
-//                           'Pick image/video error: ${snapshot.error}}',
-//                           textAlign: TextAlign.center,
-//                         );
-//                       } else {
-//                         return CircleAvatar(child: IconButton(onPressed: (){_onImageButtonPressed(ImageSource.gallery, context: context);}, icon: Icon(Icons.person)),);
-//                       }
-//                   }
-//                 },
-//               )
-//             : _handlePreview(),
-//       );
-//   }
-
-
-
-// }
-
-//   typedef OnPickImageCallback = void Function(
-//     double? maxWidth, double? maxHeight, int? quality);
 
 
 
